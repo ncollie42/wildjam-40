@@ -45,3 +45,13 @@ func _physics_process(delta):
 	var true_velocity = global_transform.basis.xform(root_motion_origin) / delta
 
 	emit_signal("updated_root_motion_direction", true_velocity)
+
+
+#----- Abilities
+
+
+func _on_Player_input_cast_spell(index):
+	#TODO: Check if can cast ability
+	$AnimationTree.enable_ability(index)
+	$Abilities.current_ability = index
+

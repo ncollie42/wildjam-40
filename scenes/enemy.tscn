@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scripts/movement.gd" type="Script" id=1]
+[ext_resource path="res://scenes/Model.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/collision_shape_ezmo.tres" type="Shape" id=3]
+[ext_resource path="res://scenes/Health.tscn" type="PackedScene" id=4]
+
+[node name="enemy" type="KinematicBody"]
+
+[node name="Movement" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.911226, 0.165645 )
+shape = ExtResource( 3 )
+script = ExtResource( 1 )
+MAX_SPEED = 5
+
+[node name="Model" parent="." instance=ExtResource( 2 )]
+
+[node name="Health" parent="." instance=ExtResource( 4 )]
+collision_layer = 8
+collision_mask = 4
+
+[connection signal="updated_velocity" from="Movement" to="Model" method="_on_Movement_updated_velocity"]
+[connection signal="updated_root_motion_direction" from="Model" to="Movement" method="_on_Model_updated_root_motion_direction"]

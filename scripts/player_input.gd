@@ -4,6 +4,7 @@ const ray_length = 20
 
 signal look_towards(position)
 signal move_towards(move_dir)
+signal cast_spell(index)
 
 func keyboard_input():
 	var from = project_ray_origin(get_viewport().get_mouse_position())
@@ -16,8 +17,10 @@ func keyboard_input():
 	var input_vect := Input.get_vector("right", "left", "backwards", "forwards")
 
 	emit_signal("move_towards", Vector3(input_vect.x, 0 , input_vect.y))
+	if Input.is_action_just_pressed("fireball") and result:
+		emit_signal("cast_spell", 0)
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	keyboard_input()
 
 # 1. Input(input_vector) ->

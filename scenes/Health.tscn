@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/collision_shape_ezmo.tres" type="Shape" id=1]
+[ext_resource path="res://scripts/Health.gd" type="Script" id=2]
+
+[node name="Health" type="Area"]
+script = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.724965, 0 )
+shape = ExtResource( 1 )

@@ -1,7 +1,10 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://scripts/model.gd" type="Script" id=1]
 [ext_resource path="res://assets/Material.material" type="Material" id=2]
+[ext_resource path="res://scripts/Abilities.gd" type="Script" id=3]
+[ext_resource path="res://scripts/AnimationTree.gd" type="Script" id=4]
+[ext_resource path="res://custom_resource/FIREBALL.tres" type="Resource" id=5]
 
 [sub_resource type="ArrayMesh" id=1]
 resource_name = "ezmo_Cube"
@@ -235,6 +238,30 @@ tracks/20/loop_wrap = true
 tracks/20/imported = false
 tracks/20/enabled = true
 tracks/20/keys = PoolRealArray( 0, 1, -0.0633578, -0.237591, 0.0335441, -0.202105, -0.0201448, 0.296418, 0.933212, 1, 1, 1 )
+
+[sub_resource type="Animation" id=23]
+resource_name = "0_FIREBALL"
+length = 0.4
+tracks/0/type = "method"
+tracks/0/path = NodePath("Abilities")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.1, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "spawn_at_self"
+}, {
+"args": [  ],
+"method": "spawn_at_self"
+}, {
+"args": [  ],
+"method": "spawn_at_self"
+} ]
+}
 
 [sub_resource type="Animation" id=4]
 resource_name = "backward"
@@ -1020,6 +1047,38 @@ tracks/21/imported = false
 tracks/21/enabled = true
 tracks/21/keys = PoolRealArray( 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, -5, 0, 0, 0, 0, 0, 1, 1, 1, 1 )
 
+[sub_resource type="AnimationNodeAnimation" id=24]
+animation = "0_FIREBALL"
+
+[sub_resource type="AnimationNodeStateMachine" id=16]
+states/0_FIREBALL/node = SubResource( 24 )
+states/0_FIREBALL/position = Vector2( 560, 152 )
+start_node = "0_FIREBALL"
+end_node = "0_FIREBALL"
+
+[sub_resource type="AnimationNodeOneShot" id=17]
+
+[sub_resource type="AnimationNodeOneShot" id=18]
+filter_enabled = true
+filters = [ "Abilities" ]
+
+[sub_resource type="AnimationNodeTransition" id=19]
+input_count = 7
+input_0/name = "FIREBALL"
+input_0/auto_advance = false
+input_1/name = "state 1"
+input_1/auto_advance = false
+input_2/name = "state 2"
+input_2/auto_advance = false
+input_3/name = "state 3"
+input_3/auto_advance = false
+input_4/name = "state 4"
+input_4/auto_advance = false
+input_5/name = "state 5"
+input_5/auto_advance = false
+input_6/name = "RESET"
+input_6/auto_advance = false
+
 [sub_resource type="AnimationNodeAnimation" id=9]
 animation = "left"
 
@@ -1049,11 +1108,52 @@ blend_point_4/pos = Vector2( 0, 0 )
 min_space = Vector2( -6, -6 )
 max_space = Vector2( 6, 6 )
 
+[sub_resource type="AnimationNodeTimeScale" id=20]
+
+[sub_resource type="AnimationNodeAnimation" id=25]
+animation = "right"
+
+[sub_resource type="AnimationNodeAnimation" id=26]
+animation = "forward"
+
+[sub_resource type="AnimationNodeAnimation" id=27]
+animation = "left"
+
+[sub_resource type="AnimationNodeAnimation" id=28]
+animation = "backward"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=21]
+blend_point_0/node = SubResource( 25 )
+blend_point_0/pos = Vector2( 1, 0 )
+blend_point_1/node = SubResource( 26 )
+blend_point_1/pos = Vector2( 0, 1 )
+blend_point_2/node = SubResource( 27 )
+blend_point_2/pos = Vector2( -1, 0 )
+blend_point_3/node = SubResource( 28 )
+blend_point_3/pos = Vector2( 0, -1 )
+min_space = Vector2( -5, -5 )
+max_space = Vector2( 5, 5 )
+
 [sub_resource type="AnimationNodeBlendTree" id=15]
-graph_offset = Vector2( -351, 89 )
+graph_offset = Vector2( -659.142, 159.272 )
+nodes/FIREBALL/node = SubResource( 16 )
+nodes/FIREBALL/position = Vector2( 2.85834, 411.272 )
+nodes/OneShot/node = SubResource( 17 )
+nodes/OneShot/position = Vector2( 980, 140 )
+nodes/ability/node = SubResource( 18 )
+nodes/ability/position = Vector2( 500, 160 )
+nodes/ability_name/node = SubResource( 19 )
+nodes/ability_name/position = Vector2( 260, 400 )
 nodes/move/node = SubResource( 14 )
-nodes/move/position = Vector2( 20, 160 )
-node_connections = [ "output", 0, "move" ]
+nodes/move/position = Vector2( -100, 180 )
+nodes/move_speed/node = SubResource( 20 )
+nodes/move_speed/position = Vector2( 160, 160 )
+nodes/output/position = Vector2( 1260, 140 )
+nodes/push/node = SubResource( 21 )
+nodes/push/position = Vector2( 760, 240 )
+node_connections = [ "output", 0, "OneShot", "ability_name", 0, "FIREBALL", "OneShot", 0, "ability", "OneShot", 1, "push", "ability", 0, "move_speed", "ability", 1, "ability_name", "move_speed", 0, "move" ]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=22]
 
 [node name="Model" type="Spatial"]
 script = ExtResource( 1 )
@@ -1175,6 +1275,7 @@ material/0 = null
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/0Tpose = SubResource( 3 )
+anims/0_FIREBALL = SubResource( 23 )
 anims/backward = SubResource( 4 )
 anims/forward = SubResource( 5 )
 anims/idle = SubResource( 6 )
@@ -1185,8 +1286,21 @@ anims/right = SubResource( 8 )
 tree_root = SubResource( 15 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
+process_mode = 2
 root_motion_track = NodePath(".")
-parameters/move/blend_position = Vector2( -0.00786591, 5 )
+parameters/FIREBALL/playback = SubResource( 22 )
+parameters/OneShot/active = false
+parameters/ability/active = false
+parameters/ability_name/current = 0
+parameters/move/blend_position = Vector2( 0, 0 )
+parameters/move_speed/scale = 1.0
+parameters/push/blend_position = Vector2( 0, 0 )
+script = ExtResource( 4 )
 
 [node name="RootMotionView" type="RootMotionView" parent="AnimationTree"]
 animation_path = NodePath("..")
+
+[node name="Abilities" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1 )
+script = ExtResource( 3 )
+ability_resources = [ ExtResource( 5 ) ]
