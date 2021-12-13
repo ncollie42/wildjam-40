@@ -1,5 +1,6 @@
 extends Spatial
 
+export(global.unit_type) var unit_type = global.unit_type.HERO
 export(Array, Resource) var ability_resources = []
 
 var mouse_position : Vector3 = Vector3.ZERO #Gets updated from model
@@ -30,15 +31,15 @@ func remove_visualizer():
 		_visualizer = null
 
 func spawn_at_target_pos():
-	print("P Spawning: ", current_ability)
 	var ability: Spatial = ability_resources[current_ability].ability.instance()
+	global.set_collison_type(ability.get_node("Area"), unit_type)
 	get_tree().current_scene.add_child(ability)
 	ability.global_transform.origin = mouse_position
 
 
 func spawn_at_self():
-	print("S Spawning: ", current_ability)
 	var ability: Spatial = ability_resources[current_ability].ability.instance()
+	global.set_collison_type(ability.get_node("Area"), unit_type)
 	ability.global_transform = global_transform
 	get_tree().current_scene.add_child(ability)
 	

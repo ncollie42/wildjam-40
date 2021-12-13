@@ -19,6 +19,8 @@ func keyboard_input():
 	emit_signal("move_towards", Vector3(input_vect.x, 0 , input_vect.y))
 	if Input.is_action_just_pressed("fireball") and result:
 		emit_signal("cast_spell", 0)
+	if Input.is_action_just_pressed("firestorm") and result:
+		emit_signal("cast_spell", 1)
 
 func _physics_process(_delta):
 	keyboard_input()

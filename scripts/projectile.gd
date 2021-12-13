@@ -15,7 +15,7 @@ func _on_Timer_timeout():
 	queue_free()
 
 func _on_Area_area_entered(enemy_health):
-	var direction := Vector2(-global_transform.basis.z.x, global_transform.basis.z.z)
-	enemy_health.push_back(direction, push_back_strength, push_back_speed)
+#	var direction := Vector2(global_transform.basis.z.x, global_transform.basis.z.z)
+	enemy_health.emit_signal("push_back", global_transform.basis.z, push_back_strength, push_back_speed)
 	enemy_health.damage(1)
 	queue_free()

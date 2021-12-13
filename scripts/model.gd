@@ -37,7 +37,7 @@ func _on_Movement_updated_velocity(velocity):
 	var blend_position = Vector2(-local_velocity.x, local_velocity.z)
 
 	$AnimationTree.set("parameters/move/blend_position", blend_position)
-
+	
 func _physics_process(delta):
 	#force animation step on current frame
 	$AnimationTree.advance(delta) #Need physics mode to be manual
@@ -55,3 +55,13 @@ func _on_Player_input_cast_spell(index):
 	$AnimationTree.enable_ability(index)
 	$Abilities.current_ability = index
 
+# -------- Health
+
+func _on_Health_push_back(direction : Vector3, strength, speed):
+	#TODO: create function for anim tree and call that
+	print("pushed", direction, " ", strength, " ", speed)
+	var local_direction = global_transform.basis.xform_inv(direction)
+	var blend_position = Vector2(-local_direction.x, local_direction.z)
+	$AnimationTree.set("parameters/push_back_speed/scale", speed)
+	$AnimationTree.set("parameters/push_back_vec/blend_position", blend_position * 1/strength)
+	$AnimationTree.set("parameters/push_back/active", true)
