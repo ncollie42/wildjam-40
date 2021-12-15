@@ -1,6 +1,7 @@
 extends Area
 
-signal push_back(direction, strength, speed)
+signal push_back(direction, strength, speed)  #call signal dirrectly from the ability
+signal stun() #call signal dirrectly from the ability
 signal died()
 signal hurt(amount)
 
@@ -16,7 +17,7 @@ func damage(amount):
 	print("Hit: ", amount, " HP: ", hp)
 	emit_signal("hurt",amount)
 	if hp <= 0:
-		get_parent().queue_free()
+#		get_parent().queue_free()
 		emit_signal("died")
 
 func push_back(direction : Vector2, strength, speed):#TODO: call signal dirrectly from the projectile

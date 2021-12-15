@@ -21,6 +21,10 @@ func keyboard_input():
 		emit_signal("cast_spell", 0)
 	if Input.is_action_just_pressed("firestorm") and result:
 		emit_signal("cast_spell", 1)
+	if Input.is_action_just_pressed("searing_flight") and result:
+		emit_signal("cast_spell", 2)
+	if Input.is_action_just_pressed("flamestrike") and result:
+		emit_signal("cast_spell", 3)
 
 func _physics_process(_delta):
 	keyboard_input()

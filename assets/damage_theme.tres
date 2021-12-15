@@ -1,0 +1,13 @@
+[gd_resource type="Theme" load_steps=3 format=2]
+
+[ext_resource path="res://assets/Roboto-Black.ttf" type="DynamicFontData" id=1]
+
+[sub_resource type="DynamicFont" id=10]
+size = 96
+outline_size = 13
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 1 )
+
+[resource]
+Label/colors/font_color = Color( 0.952941, 0.917647, 0.027451, 1 )
+Label/fonts/font = SubResource( 10 )

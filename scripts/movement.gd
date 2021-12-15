@@ -35,7 +35,7 @@ func _on_Model_updated_root_motion_direction(final_velocity):
 	Signal from: Model
 		(final_velocity - velocity) / delta(0.016667) == Acceleration(ACCEL)
 	"""
-#	if !is_on_floor():
-#		direction.y = -GRAVITY
+#	if !get_parent().is_on_floor():
+#		final_velocity.y = -GRAVITY
 #	print("Final: ", final_velocity, " speed: ", final_velocity.length())
 	velocity = get_parent().move_and_slide(final_velocity, Vector3.UP)

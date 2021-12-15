@@ -1,11 +1,25 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scripts/movement.gd" type="Script" id=1]
 [ext_resource path="res://scenes/Model.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/collision_shape_ezmo.tres" type="Shape" id=3]
 [ext_resource path="res://scenes/Health.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/damage_viewport.tscn" type="PackedScene" id=5]
+
+[sub_resource type="ViewportTexture" id=3]
+flags = 4
+viewport_path = NodePath("Health/damage_viewport/Viewport")
+
+[sub_resource type="SpatialMaterial" id=2]
+resource_local_to_scene = true
+flags_transparent = true
+flags_albedo_tex_force_srgb = true
+params_billboard_mode = 1
+params_billboard_keep_scale = true
+albedo_texture = SubResource( 3 )
 
 [node name="enemy" type="KinematicBody"]
+collision_layer = 0
 
 [node name="Movement" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.911226, 0.165645 )
@@ -20,6 +34,14 @@ collision_layer = 8
 collision_mask = 4
 unit_type = 8
 
+[node name="damage_viewport" parent="Health" instance=ExtResource( 5 )]
+material_override = SubResource( 2 )
+
 [connection signal="updated_velocity" from="Movement" to="Model" method="_on_Movement_updated_velocity"]
 [connection signal="updated_root_motion_direction" from="Model" to="Movement" method="_on_Model_updated_root_motion_direction"]
+[connection signal="hurt" from="Health" to="Health/damage_viewport" method="_on_Health_hurt"]
 [connection signal="push_back" from="Health" to="Model" method="_on_Health_push_back"]
+[connection signal="stun" from="Health" to="Model" method="_on_Health_stun"]
+[connection signal="stun" from="Health" to="Health/damage_viewport" method="_on_Health_stun"]
+
+[editable path="Health/damage_viewport"]

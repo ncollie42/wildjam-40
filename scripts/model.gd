@@ -5,6 +5,9 @@ var mouse_position:Vector3 = Vector3.ZERO
 
 func _on_Player_input_look_towards(_mouse_position : Vector3):
 	mouse_position = _mouse_position
+	$Abilities.mouse_position = _mouse_position
+	if direction_locked:
+		return
 	model_look_at(_mouse_position)
 
 func model_look_at(position: Vector3):
@@ -41,14 +44,24 @@ func _on_Movement_updated_velocity(velocity):
 func _physics_process(delta):
 	#force animation step on current frame
 	$AnimationTree.advance(delta) #Need physics mode to be manual
-	var root_motion_origin = $AnimationTree.get_root_motion_transform().origin#Displacement delta_x
+	var root_motion_origin = $AnimationTree.get_root_motion_transform().origin #Displacement delta_x
 	var true_velocity = global_transform.basis.xform(root_motion_origin) / delta
-
 	emit_signal("updated_root_motion_direction", true_velocity)
 
 
-#----- Abilities
 
+# -------- Called in animation player track
+var direction_locked = false
+
+func lock_direction():
+	print("Locked direction")
+	direction_locked = true
+
+func unlock_direction():
+	print("unlocked direction")
+	direction_locked = false
+
+#----- Abilities
 
 func _on_Player_input_cast_spell(index):
 	#TODO: Check if can cast ability
@@ -65,3 +78,7 @@ func _on_Health_push_back(direction : Vector3, strength, speed):
 	$AnimationTree.set("parameters/push_back_speed/scale", speed)
 	$AnimationTree.set("parameters/push_back_vec/blend_position", blend_position * 1/strength)
 	$AnimationTree.set("parameters/push_back/active", true)
+
+
+func _on_Health_stun():
+	$AnimationTree.set("parameters/stun/active", true)
