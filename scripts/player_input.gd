@@ -5,6 +5,7 @@ const ray_length = 20
 signal look_towards(position)
 signal move_towards(move_dir)
 signal cast_spell(index)
+signal cancel_spell()
 
 func keyboard_input():
 	var from = project_ray_origin(get_viewport().get_mouse_position())
@@ -25,6 +26,8 @@ func keyboard_input():
 		emit_signal("cast_spell", 2)
 	if Input.is_action_just_pressed("flamestrike") and result:
 		emit_signal("cast_spell", 3)
+	if Input.is_action_just_pressed("cancel_spell") and result:
+		emit_signal("cancel_spell")
 
 func _physics_process(_delta):
 	keyboard_input()

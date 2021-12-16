@@ -27,6 +27,7 @@ collision_mask = 8
 [node name="CollisionShape" parent="Health" index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.859218, 0 )
 
+[connection signal="cancel_spell" from="Player_input" to="Model" method="_on_Player_input_cancel_spell"]
 [connection signal="cast_spell" from="Player_input" to="Model" method="_on_Player_input_cast_spell"]
 [connection signal="look_towards" from="Player_input" to="Model" method="_on_Player_input_look_towards"]
 [connection signal="move_towards" from="Player_input" to="Movement" method="_on_Player_input_move_towards"]

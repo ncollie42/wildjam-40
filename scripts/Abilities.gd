@@ -60,4 +60,4 @@ func add_timer(cd:float):
 	var timer = Timer.new()
 	timer.wait_time = cd
 	timer.one_shot = true
-	add_child(timer)
+	$timers.add_child(timer)

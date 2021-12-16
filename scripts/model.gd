@@ -54,19 +54,37 @@ func _physics_process(delta):
 var direction_locked = false
 
 func lock_direction():
-	print("Locked direction")
+#	print("Locked direction")
 	direction_locked = true
 
 func unlock_direction():
-	print("unlocked direction")
+#	print("unlocked direction")
 	direction_locked = false
 
 #----- Abilities
 
+func _on_Player_input_cancel_spell():
+	print("Cancel")
+	$AnimationTree.cancel_ability()
+	$Abilities.remove_visualizer()
+	
 func _on_Player_input_cast_spell(index):
-	#TODO: Check if can cast ability
+	#TODO: set CD after ability is done
+	if !can_cast_ability(index):
+		return
+	var timer : Timer = $Abilities/timers.get_child(index)
 	$AnimationTree.enable_ability(index)
 	$Abilities.current_ability = index
+	timer.start()
+
+func can_cast_ability(index: int):
+	if $AnimationTree.is_playing_ability():
+		return false
+	var timer : Timer = $Abilities/timers.get_child(index)
+	if !timer.is_stopped():
+		print(index, " is in CD ", timer.time_left)
+		return false
+	return true
 
 # -------- Health
 
@@ -82,3 +100,5 @@ func _on_Health_push_back(direction : Vector3, strength, speed):
 
 func _on_Health_stun():
 	$AnimationTree.set("parameters/stun/active", true)
+
+

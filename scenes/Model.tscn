@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=2]
+[gd_scene load_steps=62 format=2]
 
 [ext_resource path="res://scripts/model.gd" type="Script" id=1]
 [ext_resource path="res://assets/Material.material" type="Material" id=2]
@@ -968,7 +968,7 @@ tracks/23/interp = 1
 tracks/23/loop_wrap = true
 tracks/23/imported = false
 tracks/23/enabled = true
-tracks/23/keys = PoolRealArray( 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0.3, 1, 0, 5, 0, 0, 0, 0, 1, 1, 1, 1, 0.65, 1, 0, -1, 10, 0, 0, 0, 1, 1, 1, 1 )
+tracks/23/keys = PoolRealArray( 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0.3, 1, 0, 5, 0, 0, 0, 0, 1, 1, 1, 1, 0.65, 1, 0, -2, 10, 0, 0, 0, 1, 1, 1, 1 )
 
 [sub_resource type="Animation" id=130]
 resource_name = "STUN"
@@ -2397,6 +2397,7 @@ states/FIREBALL/node = SubResource( 24 )
 states/FIREBALL/position = Vector2( 560, 151 )
 start_node = "FIREBALL"
 end_node = "FIREBALL"
+graph_offset = Vector2( -2, -78 )
 
 [sub_resource type="AnimationNodeAnimation" id=50]
 animation = "FIRESTORM"
@@ -2415,6 +2416,15 @@ states/FLAMESTRIKE/node = SubResource( 127 )
 states/FLAMESTRIKE/position = Vector2( 359, 146 )
 start_node = "FLAMESTRIKE"
 end_node = "FLAMESTRIKE"
+
+[sub_resource type="AnimationNodeAnimation" id=133]
+animation = "RESET"
+
+[sub_resource type="AnimationNodeStateMachine" id=134]
+states/RESET/node = SubResource( 133 )
+states/RESET/position = Vector2( 345, 199 )
+start_node = "RESET"
+end_node = "RESET"
 
 [sub_resource type="AnimationNodeAnimation" id=85]
 animation = "SEARING_FLIGHT_1"
@@ -2448,11 +2458,11 @@ input_2/name = "SEARING_FLIGHT"
 input_2/auto_advance = false
 input_3/name = "FLAMESTRIKE"
 input_3/auto_advance = false
-input_4/name = "state 4"
+input_4/name = "RESET"
 input_4/auto_advance = false
 input_5/name = "state 5"
 input_5/auto_advance = false
-input_6/name = "RESET"
+input_6/name = "state 6"
 input_6/auto_advance = false
 
 [sub_resource type="AnimationNodeAnimation" id=105]
@@ -2515,7 +2525,7 @@ max_space = Vector2( 5, 5 )
 [sub_resource type="AnimationNodeOneShot" id=131]
 
 [sub_resource type="AnimationNodeBlendTree" id=15]
-graph_offset = Vector2( -55, 18 )
+graph_offset = Vector2( -172, 238 )
 nodes/Animation/node = SubResource( 132 )
 nodes/Animation/position = Vector2( 1220, 280 )
 nodes/FIREBALL/node = SubResource( 16 )
@@ -2524,6 +2534,8 @@ nodes/FIRESTORM/node = SubResource( 48 )
 nodes/FIRESTORM/position = Vector2( 0, 520 )
 nodes/FLAMESTRIKE/node = SubResource( 128 )
 nodes/FLAMESTRIKE/position = Vector2( 0, 760 )
+nodes/RESET/node = SubResource( 134 )
+nodes/RESET/position = Vector2( 0, 880 )
 nodes/SEARING_FLIGHT/node = SubResource( 67 )
 nodes/SEARING_FLIGHT/position = Vector2( 0, 640 )
 nodes/ability/node = SubResource( 88 )
@@ -2541,13 +2553,15 @@ nodes/push_back_vec/node = SubResource( 21 )
 nodes/push_back_vec/position = Vector2( 720, 300 )
 nodes/stun/node = SubResource( 131 )
 nodes/stun/position = Vector2( 1340, 180 )
-node_connections = [ "push_back", 0, "ability", "push_back", 1, "push_back_speed", "output", 0, "stun", "push_back_speed", 0, "push_back_vec", "ability", 0, "move", "ability", 1, "ability_name", "stun", 0, "push_back", "stun", 1, "Animation", "ability_name", 0, "FIREBALL", "ability_name", 1, "FIRESTORM", "ability_name", 2, "SEARING_FLIGHT", "ability_name", 3, "FLAMESTRIKE" ]
+node_connections = [ "push_back", 0, "ability", "push_back", 1, "push_back_speed", "output", 0, "stun", "push_back_speed", 0, "push_back_vec", "ability", 0, "move", "ability", 1, "ability_name", "ability_name", 0, "FIREBALL", "ability_name", 1, "FIRESTORM", "ability_name", 2, "SEARING_FLIGHT", "ability_name", 3, "FLAMESTRIKE", "ability_name", 4, "RESET", "stun", 0, "push_back", "stun", 1, "Animation" ]
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=22]
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=49]
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=129]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=135]
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=68]
 
@@ -2696,9 +2710,10 @@ root_motion_track = NodePath(".:root_motion")
 parameters/FIREBALL/playback = SubResource( 22 )
 parameters/FIRESTORM/playback = SubResource( 49 )
 parameters/FLAMESTRIKE/playback = SubResource( 129 )
+parameters/RESET/playback = SubResource( 135 )
 parameters/SEARING_FLIGHT/playback = SubResource( 68 )
 parameters/ability/active = false
-parameters/ability_name/current = 6
+parameters/ability_name/current = 0
 parameters/move/blend_position = Vector2( 0.00390959, 0 )
 parameters/push_back/active = false
 parameters/push_back_speed/scale = 1.0
@@ -2717,3 +2732,5 @@ animPlayer_path = NodePath("../AnimationPlayer")
 
 [node name="feet" type="Position3D" parent="Abilities"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, -1 )
+
+[node name="timers" type="Node" parent="Abilities"]
