@@ -100,5 +100,3 @@ func _on_Health_push_back(direction : Vector3, strength, speed):
 
 func _on_Health_stun():
 	$AnimationTree.set("parameters/stun/active", true)
-
-

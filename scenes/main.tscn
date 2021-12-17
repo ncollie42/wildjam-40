@@ -1,22 +1,64 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://scenes/player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/enemy.tscn" type="PackedScene" id=2]
+[ext_resource path="res://dot_2.png" type="Texture" id=3]
+[ext_resource path="res://snow.gd" type="Script" id=4]
+[ext_resource path="res://snow.tres" type="Shader" id=5]
+[ext_resource path="res://snow_Texture.tres" type="Texture" id=6]
+[ext_resource path="res://scenes/Model_snowman.tscn" type="PackedScene" id=7]
 
 [sub_resource type="PlaneMesh" id=1]
-size = Vector2( 20, 20 )
+size = Vector2( 50, 50 )
+subdivide_width = 60
+subdivide_depth = 60
 
-[sub_resource type="SpatialMaterial" id=2]
-albedo_color = Color( 0.168627, 0.168627, 0.168627, 1 )
+[sub_resource type="ViewportTexture" id=13]
+resource_name = "test2"
+viewport_path = NodePath("snow")
+
+[sub_resource type="ViewportTexture" id=9]
+resource_name = "snow"
+viewport_path = NodePath("snow")
+
+[sub_resource type="ShaderMaterial" id=7]
+resource_local_to_scene = true
+resource_name = "test3"
+shader = ExtResource( 5 )
+shader_param/TextureUniform2 = SubResource( 9 )
+shader_param/snow_texture = ExtResource( 6 )
+shader_param/TextureUniform = SubResource( 13 )
 
 [sub_resource type="ConcavePolygonShape" id=3]
 data = PoolVector3Array( 10, 0, 10, -10, 0, 10, 10, 0, -10, -10, 0, 10, -10, 0, -10, 10, 0, -10 )
 
+[sub_resource type="ProceduralSky" id=16]
+
+[sub_resource type="Environment" id=17]
+background_mode = 2
+background_sky = SubResource( 16 )
+tonemap_mode = 4
+ss_reflections_enabled = true
+glow_enabled = true
+
 [node name="Spatial" type="Spatial"]
+
+[node name="Model" parent="." instance=ExtResource( 7 )]
+transform = Transform( -0.544769, 0, -0.515487, 0, 0.75, 0, 0.515487, 0, -0.544769, 5.41146, 0, 2.79389 )
+
+[node name="snow" type="Viewport" parent="."]
+size = Vector2( 2000, 2000 )
+render_target_v_flip = true
+render_target_clear_mode = 2
+gui_disable_input = true
+script = ExtResource( 4 )
+
+[node name="Icon" type="Sprite" parent="snow"]
+texture = ExtResource( 3 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 mesh = SubResource( 1 )
-material/0 = SubResource( 2 )
+material/0 = SubResource( 7 )
 
 [node name="StaticBody" type="StaticBody" parent="MeshInstance"]
 
@@ -27,3 +69,10 @@ shape = SubResource( 3 )
 
 [node name="enemy" parent="." instance=ExtResource( 2 )]
 transform = Transform( -0.916286, 0, -0.400525, 0, 1, 0, 0.400525, 0, -0.916286, 2.83387, 0, 4.21575 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 17 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 0.774565, -0.1661, -0.610295, -0.023278, -0.971734, 0.234927, -0.632066, -0.16776, -0.756538, 0, 8.41876, -6.68478 )
+shadow_enabled = true

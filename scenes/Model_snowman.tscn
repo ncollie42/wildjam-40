@@ -1,11 +1,14 @@
-[gd_scene load_steps=44 format=2]
+[gd_scene load_steps=48 format=2]
 
 [ext_resource path="res://scripts/model.gd" type="Script" id=1]
 [ext_resource path="res://assets/Material_001.material" type="Material" id=2]
 [ext_resource path="res://scripts/Abilities.gd" type="Script" id=3]
 [ext_resource path="res://scripts/AnimationTree.gd" type="Script" id=4]
 [ext_resource path="res://custom_resource/FIREBALL.tres" type="Resource" id=5]
+[ext_resource path="res://textures/snow_manN.png" type="Texture" id=6]
 [ext_resource path="res://animations/RESET_snowman.anim" type="Animation" id=7]
+[ext_resource path="res://textures/snow_manRM.png" type="Texture" id=8]
+[ext_resource path="res://textures/snow_manC.png" type="Texture" id=9]
 
 [sub_resource type="ArrayMesh" id=133]
 resource_name = "snowman_Sphere"
@@ -34,6 +37,14 @@ bind/1/pose = Transform( 1, 5.01823e-09, -2.38366e-07, 2.93099e-14, 0.999778, 0.
 bind/2/name = "Bone.002"
 bind/2/bone = -1
 bind/2/pose = Transform( 1, 2.56349e-09, -2.38405e-07, 2.93099e-14, 0.999942, 0.0107522, 2.38419e-07, -0.0107521, 0.999942, 0.0110559, -2.74082, 0.000681042 )
+
+[sub_resource type="SpatialMaterial" id=150]
+albedo_texture = ExtResource( 9 )
+metallic_texture = ExtResource( 8 )
+roughness_texture = ExtResource( 8 )
+normal_enabled = true
+normal_scale = 1.0
+normal_texture = ExtResource( 6 )
 
 [sub_resource type="Animation" id=135]
 resource_name = "backward"
@@ -489,7 +500,7 @@ nodes/push_back_vec/node = SubResource( 21 )
 nodes/push_back_vec/position = Vector2( 720, 300 )
 nodes/stun/node = SubResource( 131 )
 nodes/stun/position = Vector2( 1340, 180 )
-node_connections = [ "push_back", 0, "ability", "push_back", 1, "push_back_speed", "output", 0, "stun", "push_back_speed", 0, "push_back_vec", "ability", 0, "move", "ability", 1, "ability_name", "stun", 0, "push_back", "stun", 1, "Animation", "ability_name", 0, "SNOW_BALL", "ability_name", 1, "RESET" ]
+node_connections = [ "push_back", 0, "ability", "push_back", 1, "push_back_speed", "output", 0, "stun", "push_back_speed", 0, "push_back_vec", "ability", 0, "move", "ability", 1, "ability_name", "ability_name", 0, "SNOW_BALL", "ability_name", 1, "RESET", "stun", 0, "push_back", "stun", 1, "Animation" ]
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=148]
 
@@ -521,7 +532,7 @@ bones/2/bound_children = [  ]
 [node name="snow_man" type="MeshInstance" parent="Armature/Skeleton"]
 mesh = SubResource( 133 )
 skin = SubResource( 134 )
-material/0 = null
+material/0 = SubResource( 150 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = ExtResource( 7 )

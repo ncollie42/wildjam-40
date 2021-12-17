@@ -53,7 +53,7 @@ func is_current_anim_done():
 	var index = get("parameters/ability_name/current")
 	var leng = playbacks[index].get_current_length()
 	var pos = playbacks[index].get_current_play_position()
-	if is_equal_approx(pos, leng):
+	if is_equal_approx(pos, leng) || pos > leng:
 		return true
 	print("Currently casting ", connections["ability_name"][index], " ", pos, "/", leng)
 	return false
